@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 interface Note {
@@ -8,6 +8,14 @@ interface Note {
 }
 
 const App = () => {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const handleAddNote = (event: React.FormEvent) => {
+    event.preventDefault();
+    console.log("title:",title);
+    console.log("contet:",content);
+  };
+
   const [notes, setNotes] = useState<Note[]>([
   {
     id: 1,
@@ -41,15 +49,32 @@ const App = () => {
   },
   ]);
 
+  const newNote: Note = {
+    id: notes.length+1,
+    title: title,
+    content: content,
+  };
+  setNotes([newNote, ...notes]);
   return (
     <div className='app-container'>
-      <form className='note-form'>
-        <input placeholder='Title' required/>
-        <textarea placeholder='Content' rows={10} required/>
+      <form className='note-form' onSubmit={handleAddNote}>
+        <input 
+          placeholder='Title'
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
+          required
+        ></input>
+        <textarea 
+          placeholder='Content'
+          value={content}
+          onChange={(event) => setContent(event.target.value)}
+          rows={10} 
+          required
+        ></textarea>
         <button type='submit'>Add Note</button>
       </form>
       <div className="notes-grid">
-        {notes.map((note) => (
+      {notes.map((note) => (
         <div className="note-item">
           <div className="notes-header">
             <button>x</button>
