@@ -1,21 +1,13 @@
 import React, { useState } from 'react';
 import './App.css';
 
-interface Note {
+type Note = {
   id: number;
   title: string;
   content: string;
-}
+};
 
 const App = () => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const handleAddNote = (event: React.FormEvent) => {
-    event.preventDefault();
-    console.log("title:",title);
-    console.log("contet:",content);
-  };
-
   const [notes, setNotes] = useState<Note[]>([
   {
     id: 1,
@@ -49,15 +41,26 @@ const App = () => {
   },
   ]);
 
-  const newNote: Note = {
-    id: notes.length+1,
-    title: title,
-    content: content,
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const handleAddNote = (event: React.FormEvent) => {
+    event.preventDefault();
+    console.log("title:",title);
+    console.log("contet:",content);
+
+    const newNote: Note = {
+      id: notes.length + 1,
+      title: title,
+      content: content,
+    };
+    
+    setNotes([newNote, ...notes]);
   };
-  setNotes([newNote, ...notes]);
+
   return (
     <div className='app-container'>
-      <form className='note-form' onSubmit={handleAddNote}>
+      <form className='note-form' onSubmit={(event) => handleAddNote(event)}>
         <input 
           placeholder='Title'
           value={title}
