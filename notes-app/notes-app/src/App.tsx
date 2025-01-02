@@ -46,16 +46,16 @@ const App = () => {
 
   const handleAddNote = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("title:",title);
-    console.log("contet:",content);
 
     const newNote: Note = {
       id: notes.length + 1,
       title: title,
       content: content,
     };
-    
+
     setNotes([newNote, ...notes]);
+    setTitle("");
+    setContent("");
   };
 
   return (
